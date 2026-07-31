@@ -1,11 +1,8 @@
-This project is about data on planets in the solar system.
-
-Solar System Analysis is a small Python project that turns raw planetary data into interpreted results instead of just displaying looked-up facts. A data module stores NASA fact-sheet measurements (mass, radius, distance from the Sun, temperature, orbital period, moons) for the eight planets, and an analysis layer computes real physics from them eg. density, surface gravity, and escape velocity are all calculated from each planet's mass and radius.
-
-Planets are classified as terrestrial, ice giant, or gas giant, and a Pearson correlation tests whether distance from the Sun predicts temperature, flagging Venus as the trend-breaker (hotter than Mercury despite being farther out, thanks to its thick CO₂ atmosphere). 
-
-A thin Flask API serves these results as JSON...per-planet lookups, rankings, summary statistics, and side-by-side comparisons
-
-It has an nteractive web page with a planet picker, a sortable table that highlights the calculated columns
-
-It has a dark mode, built in plain JavaScript with no frameworks. 
+1. https://github.com/kohlik-blip/solar-system-analysis
+2. There is no live app
+3. An interactive solar-system explorer. A Flask API calculates each planet's density, surface gravity, and escape velocity from its mass and radius, then serves them as JSON to a page with a planet picker, sortable comparison table, and a finding on whether distance from the Sun predicts temperature (Venus breaks the trend).
+4. Not applicable, the API is read-only, so all endpoints are GET.
+5. None. The planetary data is hard-coded in planets_data.py, and everything else is computed on demand. 
+6. pip install flask, then python app.py serves both the API and page at http://127.0.0.1:5000/. Planet photos need internet. Opening index.html alone also works, using an embedded snapshot of the analysis output.
+7. API endpoints, the page, and analysis.py were all tested. Planet images need internet. Everything is working.
+8. Data from NASA planetary fact sheets; images from Wikimedia Commons. Tools: Flask, HTML, CSS, and JavaScript.
