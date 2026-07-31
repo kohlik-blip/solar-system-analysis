@@ -1,0 +1,353 @@
+/* ==========================================================================
+   fp.css - Solar System Data Analysis
+   Monochrome: black, white and grey only. No accent colours.
+   ========================================================================== */
+
+:root {
+  --bg:        #ffffff;
+  --panel:     #fafafa;
+  --border:    #e0e0e0;
+  --border-mid:#c4c4c4;
+  --ink:       #111111;   /* headings, key figures */
+  --text:      #333333;   /* body copy */
+  --text-dim:  #767676;   /* labels, captions */
+  --hover:     #f2f2f2;
+  --selected:  #ebebeb;
+}
+
+/* Dark theme. Because every rule below reads these variables, redefining them
+   here is all it takes to flip the entire page — no per-element overrides.
+   The class lives on <html> so the inline script in index.html can set it
+   before first paint. Swap --bg to #000 if you want true black. */
+html.dark {
+  --bg:        #121212;
+  --panel:     #1a1a1a;
+  --border:    #2b2b2b;
+  --border-mid:#454545;
+  --ink:       #f4f4f4;   /* headings, key figures */
+  --text:      #cfcfcf;   /* body copy */
+  --text-dim:  #9a9a9a;   /* labels, captions */
+  --hover:     #202020;
+  --selected:  #2c2c2c;
+}
+
+/* Planet photos are desaturated for the monochrome look; ease them back a
+   touch in dark mode so they don't glow against the near-black background. */
+html.dark .planet-card img { filter: grayscale(100%) contrast(0.95) brightness(0.9); }
+
+/* Color-images mode: drop the grayscale filter so photos show in full color.
+   Placed after the rules above so it wins when both classes are set at once. */
+html.color-images .planet-card img { filter: none; }
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0 1.25rem 4rem;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ------------------------------- header --------------------------------- */
+.site-header {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 3.5rem 0 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.site-header h1 {
+  margin: 0 0 .6rem;
+  color: var(--ink);
+  font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+  font-weight: 600;
+  letter-spacing: -.02em;
+}
+
+.subtitle {
+  max-width: 620px;
+  margin: 0 0 1.25rem;
+  color: var(--text-dim);
+  font-size: .93rem;
+}
+
+/* status line: live API vs offline data */
+.badge {
+  display: inline-block;
+  margin: 0;
+  color: var(--text-dim);
+  font-size: .78rem;
+  letter-spacing: .02em;
+}
+.badge::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: .5rem;
+  border-radius: 50%;
+  vertical-align: middle;
+  background: var(--border-mid);
+}
+.badge-live::before    { background: var(--ink); }
+.badge-offline::before { background: var(--bg); border: 1px solid var(--border-mid); }
+
+/* ------------------------------- layout --------------------------------- */
+main { max-width: 880px; margin: 0 auto; }
+
+.panel {
+  padding: 2.25rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.panel:last-of-type { border-bottom: none; }
+
+.panel h2 {
+  margin: 0 0 .4rem;
+  color: var(--ink);
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: .01em;
+}
+
+.note {
+  margin: 0 0 1.25rem;
+  color: var(--text-dim);
+  font-size: .83rem;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .85em;
+  color: var(--text);
+}
+
+/* ------------------------------- picker --------------------------------- */
+.picker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .7rem;
+  margin-bottom: 2rem;
+}
+
+.picker label {
+  color: var(--text-dim);
+  font-size: .83rem;
+}
+
+select {
+  padding: .45rem 2rem .45rem .7rem;
+  min-width: 170px;
+  background: var(--bg);
+  color: var(--ink);
+  border: 1px solid var(--border-mid);
+  border-radius: 3px;
+  font-size: .9rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+select:hover { border-color: var(--ink); }
+select:focus-visible,
+th[tabindex]:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* ----------------------------- planet card ------------------------------ */
+.planet-card {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 2.25rem;
+  align-items: start;
+}
+
+.planet-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 50%;
+  background: var(--panel);
+  /* photographs desaturated to keep the page monochrome */
+  filter: grayscale(100%) contrast(1.05);
+}
+
+.planet-card h3 {
+  margin: 0 0 .2rem;
+  color: var(--ink);
+  font-size: 1.45rem;
+  font-weight: 600;
+  letter-spacing: -.01em;
+}
+
+.planet-meta {
+  margin: 0 0 .9rem;
+  color: var(--text-dim);
+  font-size: .78rem;
+}
+
+.tag {
+  text-transform: uppercase;
+  letter-spacing: .07em;
+}
+.tag + .tag::before {
+  content: "\00b7";
+  margin: 0 .45rem;
+}
+
+.blurb {
+  margin: 0 0 1.5rem;
+  max-width: 52ch;
+  font-size: .92rem;
+}
+
+/* --------------------------- tables (shared) ---------------------------- */
+.table-scroll { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .87rem;
+}
+
+caption {
+  padding-bottom: .6rem;
+  color: var(--text-dim);
+  font-size: .78rem;
+  text-align: left;
+}
+
+th, td {
+  padding: .5rem .7rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+th:first-child, td:first-child { padding-left: 0; }
+
+thead th {
+  border-bottom: 1px solid var(--border-mid);
+  color: var(--text-dim);
+  font-size: .71rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+
+tbody tr:hover { background: var(--hover); }
+
+/* stat table inside the planet card */
+.stat-table th {
+  width: 46%;
+  color: var(--text-dim);
+  font-weight: 400;
+}
+.stat-table td {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Values analysis.py calculated rather than looked up.
+   Marked with weight instead of a colour. */
+.derived     { color: var(--ink); font-weight: 600; }
+.derived-key { color: var(--ink); font-weight: 700; }
+
+/* all-planets table */
+.data-table th[tabindex] { cursor: pointer; user-select: none; }
+.data-table th[tabindex]:hover { color: var(--ink); }
+.data-table th .arrow { font-size: .8em; }
+.data-table td { font-variant-numeric: tabular-nums; }
+.data-table tr.is-selected { background: var(--selected); }
+.data-table tr.is-selected td { color: var(--ink); }
+.data-table td.planet-name {
+  color: var(--ink);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* temperature emphasis, monochrome: extremes simply read darker */
+.temp-hot, .temp-cold { color: var(--ink); font-weight: 600; }
+
+/* ------------------------------- finding -------------------------------- */
+.finding { max-width: 62ch; }
+.finding p { margin: 0 0 .8rem; }
+.finding strong { color: var(--ink); }
+
+.r-value {
+  display: block;
+  margin: .4rem 0 .6rem;
+  color: var(--ink);
+  font-size: 2.4rem;
+  font-weight: 300;
+  letter-spacing: -.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.outlier {
+  margin: 1.25rem 0 0;
+  padding: .1rem 0 .1rem 1.1rem;
+  border-left: 2px solid var(--ink);
+  font-size: .88rem;
+}
+
+/* ------------------------------- footer --------------------------------- */
+.site-footer {
+  max-width: 880px;
+  margin: 2.5rem auto 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: .78rem;
+}
+
+/* ------------------------------ responsive ------------------------------ */
+@media (max-width: 700px) {
+  .planet-card { grid-template-columns: 1fr; gap: 1.5rem; }
+  .planet-card img { max-width: 170px; }
+  .panel { padding: 1.75rem 0; }
+  .site-header { padding: 2.5rem 0 1.5rem; }
+}
+
+/* ------------------------------- printing ------------------------------- */
+@media print {
+  body { padding: 0; }
+  .panel { break-inside: avoid; }
+}
+
+/* ------------------------- header toggle buttons ------------------------ */
+.header-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+  margin-top: 1.25rem;
+}
+
+.toggle-btn {
+  padding: .4rem .9rem;
+  background: var(--bg);
+  color: var(--ink);
+  border: 1px solid var(--border-mid);
+  border-radius: 3px;
+  font-family: inherit;
+  font-size: .8rem;
+  letter-spacing: .02em;
+  cursor: pointer;
+}
+.toggle-btn:hover { border-color: var(--ink); }
+.toggle-btn:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* Fade between themes instead of an instant flip (skipped for users who
+   prefer reduced motion). */
+@media (prefers-reduced-motion: no-preference) {
+  body, .site-header, .site-footer, .panel, .badge,
+  .planet-card, select, th, td, .toggle-btn, .planet-card img {
+    transition: background-color .25s ease, color .25s ease,
+                border-color .25s ease, filter .25s ease;
+  }
+}

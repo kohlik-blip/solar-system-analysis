@@ -1,0 +1,99 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solar System Data Analysis</title>
+  <link rel="stylesheet" href="fp.css">
+  <script>
+    /* Apply the saved (or system) theme before the page paints, so a dark-mode
+       user never sees a white flash. Runs on <html> because <body> doesn't
+       exist yet at this point. */
+    (function () {
+      try {
+        var saved = localStorage.getItem("theme");
+        var dark = saved
+          ? saved === "dark"
+          : window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (dark) document.documentElement.classList.add("dark");
+        if (localStorage.getItem("images") === "color") {
+          document.documentElement.classList.add("color-images");
+        }
+      } catch (e) { /* localStorage blocked — just stay light */ }
+    })();
+  </script>
+</head>
+<body>
+
+  <header class="site-header">
+    <h1>Solar System Data Analysis</h1>
+    <p class="subtitle">
+      An interactive front end for a Python analysis backend.
+      Density, surface gravity and escape velocity are not looked up &mdash;
+      they are calculated from each planet's mass and radius.
+    </p>
+    <p id="dataSource" class="badge badge-loading">Loading data&hellip;</p>
+    <div class="header-controls">
+      <button id="themeToggle" class="toggle-btn" type="button" aria-pressed="false">
+        Dark mode
+      </button>
+      <button id="colorToggle" class="toggle-btn" type="button" aria-pressed="false">
+        Color images
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ---------------- Planet picker ---------------- -->
+    <section class="panel">
+      <div class="picker">
+        <label for="planetSelect">Choose a planet:</label>
+        <select id="planetSelect">
+          <!-- filled in by fp.js from the data, so it can never fall out of sync -->
+        </select>
+      </div>
+
+      <article id="planetCard" class="planet-card">
+        <!-- filled in by fp.js -->
+      </article>
+    </section>
+
+    <!-- ---------------- All planets table ---------------- -->
+    <section class="panel">
+      <h2>All Eight Planets</h2>
+      <p class="note">
+        Click any column heading to sort. The
+        <span class="derived-key">bold columns</span> are calculated by
+        <code>analysis.py</code> rather than stored in the data file.
+      </p>
+      <div class="table-scroll">
+        <table id="allTable" class="data-table">
+          <thead><!-- filled in by fp.js --></thead>
+          <tbody><!-- filled in by fp.js --></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ---------------- Finding ---------------- -->
+    <section class="panel">
+      <h2>Finding: Does Distance From The Sun Predict Temperature?</h2>
+      <div id="correlation" class="finding">
+        <!-- filled in by fp.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      Data: NASA planetary fact sheets (approximate mean values).
+      Backend: <code>planets_data.py</code> &rarr; <code>analysis.py</code> &rarr;
+      <code>app.py</code> (Flask). Front end: <code>index.html</code>,
+      <code>fp.css</code>, <code>fp.js</code>.
+    </p>
+  </footer>
+
+  <script src="fp.js"></script>
+</body>
+</html>
