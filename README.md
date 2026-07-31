@@ -6,6 +6,6 @@ Planets are classified as terrestrial, ice giant, or gas giant, and a Pearson co
 
 A thin Flask API serves these results as JSON...per-planet lookups, rankings, summary statistics, and side-by-side comparisons
 
-It has an nteractive web page with a planet picker, a sortable table that highlights the calculated columns, 
+It has an nteractive web page with a planet picker, a sortable table that highlights the calculated columns
 
 It has a dark mode, built in plain JavaScript with no frameworks. 
